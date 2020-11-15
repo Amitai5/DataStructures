@@ -92,28 +92,13 @@ namespace DataStructuresTester.Lists
         }
 
         [Fact]
-        public void TestIndexOf()
-        {
-            int[] numbersAdded = FillList();
-            for (int i = 0; i < sampleSize; i++)
-            {
-                int randomIndex = random.Next(TestList.Count);
-                int indexFound = TestList.IndexOf(numbersAdded[randomIndex]);
-                Assert.Equal(randomIndex, indexFound);
-            }
-
-            Assert.Equal(-1, TestList.IndexOf(null));
-            Assert.Equal(-1, TestList.IndexOf(-1000));
-        }
-
-        [Fact]
         public void TestInsert()
         {
             FillList();
-            TestList.Insert(0, 10);
+            TestList.Insert(10, 0);
             Assert.Equal(10, TestList[0]);
 
-            TestList.Insert(TestList.Count, -10);
+            TestList.Insert(-10, TestList.Count);
             Assert.Equal(-10, TestList[^1]);
 
             for (int i = 0; i < sampleSize; i++)
@@ -121,12 +106,12 @@ namespace DataStructuresTester.Lists
                 int newNumber = random.Next();
                 int randomIndex = random.Next(TestList.Count);
 
-                TestList.Insert(randomIndex, newNumber);
+                TestList.Insert(newNumber, randomIndex);
                 Assert.Equal(newNumber, TestList[randomIndex]);
             }
 
-            Assert.Throws<IndexOutOfRangeException>(() => TestList.Insert(-1, 0));
-            Assert.Throws<IndexOutOfRangeException>(() => TestList.Insert(TestList.Count + 1, 0));
+            Assert.Throws<IndexOutOfRangeException>(() => TestList.Insert(0, -1));
+            Assert.Throws<IndexOutOfRangeException>(() => TestList.Insert(0, TestList.Count + 1));
         }
 
         [Fact]
