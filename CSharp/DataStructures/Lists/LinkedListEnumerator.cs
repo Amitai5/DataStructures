@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace DataStructures.Lists
 {
-    internal class LinkedListEnumerator<T> : IEnumerator<T>
+    internal struct LinkedListEnumerator<T> : IEnumerator<T>
     {
         private LinkedListNode<T>? cursor;
         object System.Collections.IEnumerator.Current => Current!;

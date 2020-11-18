@@ -163,6 +163,7 @@ namespace DataStructuresTester.Lists
             Assert.Empty(TestList);
         }
 
+        #region Helper Functions
         private int[] FillList()
         {
             int[] numbersAdded = new int[sampleSize];
@@ -175,5 +176,6 @@ namespace DataStructuresTester.Lists
 
             return numbersAdded;
         }
+        #endregion Helper Functions
     }
 }

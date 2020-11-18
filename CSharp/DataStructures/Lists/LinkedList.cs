@@ -87,6 +87,11 @@ namespace DataStructures.Lists
         /// <param name="collection">The collection whose elements are copied to the new Linked-List.</param>
         public LinkedList(IEnumerable<T> collection)
         {
+            if (collection == null)
+            {
+                throw new ArgumentNullException("The IEnumerable object was null. If you wish to instantiate an Linked-List object without any initial values, use the constructor overload 'new LinkedList()'.");
+            }
+
             foreach (T item in collection)
             {
                 Add(item);
