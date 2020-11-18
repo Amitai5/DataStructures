@@ -6,9 +6,9 @@ using System.Collections.Generic;
 namespace DataStructures.Lists
 {
     /// <summary>
-    /// Represents a Doubly-Linked-List.
+    /// Represents a Doubly-LinkedList.
     /// </summary>
-    /// <typeparam name="T">Specifies the element type of the Linked-List.</typeparam>
+    /// <typeparam name="T">Specifies the element type of the LinkedList.</typeparam>
     public class LinkedList<T> : ICollection<T>
     {
         /// <summary>
@@ -23,22 +23,22 @@ namespace DataStructures.Lists
         }
 
         /// <summary>
-        /// Gets a value indicating whether the Linked-List is read-only.
+        /// Gets a value indicating whether the LinkedList is read-only.
         /// </summary>
         public bool IsReadOnly => false;
 
         /// <summary>
-        /// Gets a value indicating whether the Linked-List is empty.
+        /// Gets a value indicating whether the LinkedList is empty.
         /// </summary>
         public bool IsEmpty => Count == 0;
 
         /// <summary>
-        /// Gets the number of nodes actually contained in the Linked-List.
+        /// Gets the number of nodes actually contained in the LinkedList.
         /// </summary>
         public int Count { get; private set; }
 
         /// <summary>
-        /// Gets the value of the last node within the Linked-List.
+        /// Gets the value of the last node within the LinkedList.
         /// </summary>
         public T? Last
         {
@@ -54,7 +54,7 @@ namespace DataStructures.Lists
         private LinkedListNode<T>? tail;
 
         /// <summary>
-        /// Gets the value of the first node within the Linked-List.
+        /// Gets the value of the first node within the LinkedList.
         /// </summary>
         public T? First
         {
@@ -84,12 +84,12 @@ namespace DataStructures.Lists
         /// <summary>
         /// Initializes a new instance of a LinkedList that contains elements copied from the specified collection.
         /// </summary>
-        /// <param name="collection">The collection whose elements are copied to the new Linked-List.</param>
+        /// <param name="collection">The collection whose elements are copied to the new LinkedList.</param>
         public LinkedList(IEnumerable<T> collection)
         {
             if (collection == null)
             {
-                throw new ArgumentNullException("The IEnumerable object was null. If you wish to instantiate an Linked-List object without any initial values, use the constructor overload 'new LinkedList()'.");
+                throw new ArgumentNullException("The IEnumerable object was null. If you wish to instantiate an LinkedList object without any initial values, use the constructor overload 'new LinkedList()'.");
             }
 
             foreach (T item in collection)
@@ -100,23 +100,23 @@ namespace DataStructures.Lists
         }
 
         /// <summary>
-        /// Adds the specified new node at the end of the Linked-List.
+        /// Adds the specified new node at the end of the LinkedList.
         /// </summary>
-        /// <param name="item">The new value to add at the end of the Linked-List.</param>
+        /// <param name="item">The new value to add at the end of the LinkedList.</param>
         public void Add(T item)
         {
             AddLast(item);
         }
 
         /// <summary>
-        /// Adds the specified new node at the end of the Linked-List.
+        /// Adds the specified new node at the end of the LinkedList.
         /// </summary>
-        /// <param name="item">The new value to add at the end of the Linked-List.</param>
+        /// <param name="item">The new value to add at the end of the LinkedList.</param>
         public void AddFirst(T item)
         {
             if (item == null && !containsReferenceTypes)
             {
-                throw new NoNullAllowedException("Null value-types are not allowed in the Linked-List.");
+                throw new NoNullAllowedException("Null value-types are not allowed in the LinkedList.");
             }
 
             Count++;
@@ -130,14 +130,14 @@ namespace DataStructures.Lists
         }
 
         /// <summary>
-        /// Adds the specified new node at the front of the Linked-List.
+        /// Adds the specified new node at the front of the LinkedList.
         /// </summary>
-        /// <param name="item">The new value to add at the front of the Linked-List.</param>
+        /// <param name="item">The new value to add at the front of the LinkedList.</param>
         public void AddLast(T item)
         {
             if (item == null && !containsReferenceTypes)
             {
-                throw new NoNullAllowedException("Null value-types are not allowed in the Linked-List.");
+                throw new NoNullAllowedException("Null value-types are not allowed in the LinkedList.");
             }
 
             if (head == null)
@@ -157,7 +157,7 @@ namespace DataStructures.Lists
         }
 
         /// <summary>
-        /// Removes all nodes from the Linked-List.
+        /// Removes all nodes from the LinkedList.
         /// </summary>
         public void Clear()
         {
@@ -167,9 +167,9 @@ namespace DataStructures.Lists
         }
 
         /// <summary>
-        /// Determines whether a value is in the Linked-List.
+        /// Determines whether a value is in the LinkedList.
         /// </summary>
-        /// <param name="item">The value to locate in the Linked-List. The value can be null for reference types.</param>
+        /// <param name="item">The value to locate in the LinkedList. The value can be null for reference types.</param>
         /// <returns></returns>
         public bool Contains(T item)
         {
@@ -177,9 +177,9 @@ namespace DataStructures.Lists
         }
 
         /// <summary>
-        /// Copies the entire Linked-List to a compatible one-dimensional array, starting at the specified index of the target array.
+        /// Copies the entire LinkedList to a compatible one-dimensional array, starting at the specified index of the target array.
         /// </summary>
-        /// <param name="array">The one-dimensional array that is the destination of the elements copied from Linked-List. The array must have zero-based indexing.</param>
+        /// <param name="array">The one-dimensional array that is the destination of the elements copied from LinkedList. The array must have zero-based indexing.</param>
         /// <param name="arrayIndex">The zero-based index in array at which copying begins.</param>
         public void CopyTo(T[] array, int arrayIndex)
         {
@@ -190,7 +190,7 @@ namespace DataStructures.Lists
 
             if (array.Length - arrayIndex < Count)
             {
-                throw new ArgumentOutOfRangeException($"The array of length, {array.Length}, does not have enough space to copy the contents of the Linked-List starting at index {arrayIndex}.");
+                throw new ArgumentOutOfRangeException($"The array of length, {array.Length}, does not have enough space to copy the contents of the LinkedList starting at index {arrayIndex}.");
             }
 
             if (arrayIndex < 0 || arrayIndex >= array.Length)
@@ -211,7 +211,7 @@ namespace DataStructures.Lists
         }
 
         /// <summary>
-        /// Inserts an element into the Linked-List at the specified index.
+        /// Inserts an element into the LinkedList at the specified index.
         /// </summary>
         /// <param name="item">The object to insert. The value can be null for reference types.</param>
         /// <param name="index">The zero-based index at which item should be inserted.</param>
@@ -219,7 +219,7 @@ namespace DataStructures.Lists
         {
             if (item == null && !containsReferenceTypes)
             {
-                throw new NoNullAllowedException("Null value-types are not allowed in the Linked-List.");
+                throw new NoNullAllowedException("Null value-types are not allowed in the LinkedList.");
             }
 
             if (index == 0)
@@ -246,9 +246,9 @@ namespace DataStructures.Lists
         }
 
         /// <summary>
-        /// Removes the first occurrence of the specified value from the Linked-List.
+        /// Removes the first occurrence of the specified value from the LinkedList.
         /// </summary>
-        /// <param name="item">The value to remove from the Linked-List.</param>
+        /// <param name="item">The value to remove from the LinkedList.</param>
         /// <returns>true if the element containing value is successfully removed; otherwise, false.</returns>
         public bool Remove(T item)
         {
@@ -262,7 +262,7 @@ namespace DataStructures.Lists
         }
 
         /// <summary>
-        /// Removes the node at the front of the Linked-List.
+        /// Removes the node at the front of the LinkedList.
         /// </summary>
         /// <returns>true if the element containing value is successfully removed; otherwise, false.</returns>
         public bool RemoveFirst()
@@ -274,7 +274,7 @@ namespace DataStructures.Lists
         }
 
         /// <summary>
-        /// Removes the node at the end of the Linked-List.
+        /// Removes the node at the end of the LinkedList.
         /// </summary>
         /// <returns>true if the element containing value is successfully removed; otherwise, false.</returns>
         public bool RemoveLast()
@@ -327,7 +327,7 @@ namespace DataStructures.Lists
         {
             if (index < 0 || index >= Count)
             {
-                throw new IndexOutOfRangeException($"The index, {index}, is out of the bounds of the Linked-List.");
+                throw new IndexOutOfRangeException($"The index, {index}, is out of the bounds of the LinkedList.");
             }
 
             LinkedListNode<T>? cursor = head;
