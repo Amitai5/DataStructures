@@ -21,7 +21,7 @@ namespace DataStructures.Lists
             {
                 if (index < 0 || index >= Count)
                 {
-                    throw new IndexOutOfRangeException($"The index, {index}, is out of the bounds of the ArrayList.");
+                    throw new IndexOutOfRangeException($"The index, {index}, is out of the bounds of the DataStructures.Lists.ArrayList.");
                 }
                 return backingArray[index];
             }
@@ -29,7 +29,7 @@ namespace DataStructures.Lists
             {
                 if (index < 0 || index >= Count)
                 {
-                    throw new IndexOutOfRangeException($"The index, {index}, is out of the bounds of the ArrayList.");
+                    throw new IndexOutOfRangeException($"The index, {index}, is out of the bounds of the DataStructures.Lists.ArrayList.");
                 }
                 backingArray[index] = value;
             }
@@ -41,7 +41,7 @@ namespace DataStructures.Lists
         public int Count => arrayTail + 1;
 
         /// <summary>
-        /// Gets the number of elements that the ArrayList can contain at the current size.
+        /// Gets the number of elements that the DataStructures.Lists.ArrayList can contain at the current size.
         /// </summary>
         public int Capacity => backingArray.Length;
 
@@ -51,7 +51,7 @@ namespace DataStructures.Lists
         public bool IsReadOnly => false;
 
         /// <summary>
-        /// The initial capacity of the ArrayList if none is given in the constructor of the class.
+        /// The initial capacity of the DataStructures.Lists.ArrayList if none is given in the constructor of the class.
         /// </summary>
         public const int InitCapacity = 4;
 
@@ -59,7 +59,7 @@ namespace DataStructures.Lists
         private T[] backingArray;
 
         /// <summary>
-        /// Initializes a new instance of a ArrayList that contains elements copied from the specified collection.
+        /// Initializes a new instance of a DataStructures.Lists.ArrayList that contains elements copied from the specified collection.
         /// </summary>
         public ArrayList()
         {
@@ -68,14 +68,14 @@ namespace DataStructures.Lists
         }
 
         /// <summary>
-        /// Initializes a new instance of the ArrayList class that is empty and has the specified initial capacity.
+        /// Initializes a new instance of the DataStructures.Lists.ArrayList class that is empty and has the specified initial capacity.
         /// </summary>
-        /// <param name="capacity">The specific capacity to initialize the ArrayList with.</param>
+        /// <param name="capacity">The specific capacity to initialize the DataStructures.Lists.ArrayList with.</param>
         public ArrayList(int capacity)
         {
             if(capacity < 0)
             {
-                throw new ArgumentNullException("The capacity of the ArrayList must be initialized as a positive non-zero number.");
+                throw new ArgumentNullException("The capacity of the DataStructures.Lists.ArrayList must be initialized as a positive non-zero number.");
             }
 
             backingArray = new T[capacity];
@@ -83,14 +83,14 @@ namespace DataStructures.Lists
         }
 
         /// <summary>
-        /// Initializes a new instance of a ArrayList that contains elements copied from the specified collection.
+        /// Initializes a new instance of a DataStructures.Lists.ArrayList that contains elements copied from the specified collection.
         /// </summary>
-        /// <param name="collection">The collection whose elements are copied to the new ArrayList.</param>
+        /// <param name="collection">The collection whose elements are copied to the new DataStructures.Lists.ArrayList.</param>
         public ArrayList(ICollection collection)
         {
             if (collection == null)
             {
-                throw new ArgumentNullException("The ICollection object was null. If you wish to instantiate an ArrayList object without any initial values, use the constructor overload 'new ArrayList()'.");
+                throw new ArgumentNullException("The ICollection object was null. If you wish to instantiate an DataStructures.Lists.ArrayList object without any initial values, use the constructor overload 'new ArrayList()'.");
             }
 
             backingArray = new T[collection.Count + InitCapacity];
@@ -104,9 +104,9 @@ namespace DataStructures.Lists
         }
 
         /// <summary>
-        /// Adds an object to the end of the ArrayList.
+        /// Adds an object to the end of the DataStructures.Lists.ArrayList.
         /// </summary>
-        /// <param name="item">The T, item, to be added to the end of the ArrayList. The value can be null.</param>
+        /// <param name="item">The T, item, to be added to the end of the DataStructures.Lists.ArrayList. The value can be null.</param>
         public void Add(T item)
         {
             Resize();
@@ -114,7 +114,7 @@ namespace DataStructures.Lists
         }
 
         /// <summary>
-        /// Removes all elements from the ArrayList.
+        /// Removes all elements from the DataStructures.Lists.ArrayList.
         /// </summary>
         public void Clear()
         {
@@ -122,18 +122,18 @@ namespace DataStructures.Lists
         }
 
         /// <summary>
-        /// Creates a shallow copy of the ArrayList.
+        /// Creates a shallow copy of the DataStructures.Lists.ArrayList.
         /// </summary>
-        /// <returns>A shallow copy of the ArrayList.</returns>
+        /// <returns>A shallow copy of the DataStructures.Lists.ArrayList.</returns>
         public object Clone()
         {
             return new ArrayList<T>((T[])backingArray.Clone(), arrayTail);
         }
 
         /// <summary>
-        /// Determines whether an element is in the ArrayList.
+        /// Determines whether an element is in the DataStructures.Lists.ArrayList.
         /// </summary>
-        /// <param name="item">The T, item, to locate in the ArrayList. The value can be null.</param>
+        /// <param name="item">The T, item, to locate in the DataStructures.Lists.ArrayList. The value can be null.</param>
         /// <returns>True if item is found in the ArrayList; Otherwise, false.</returns>
         public bool Contains(T item)
         {
@@ -153,9 +153,9 @@ namespace DataStructures.Lists
         }
 
         /// <summary>
-        /// Copies the entire ArrayList to a compatible one-dimensional Array, starting at the specified index of the target array.
+        /// Copies the entire DataStructures.Lists.ArrayList to a compatible one-dimensional System.Array, starting at the specified index of the target array.
         /// </summary>
-        /// <param name="array">The one-dimensional Array that is the destination of the elements copied from ArrayList. The Array must have zero-based indexing.</param>
+        /// <param name="array">The one-dimensional System.Array that is the destination of the elements copied from DataStructures.Lists.ArrayList. The System.Array must have zero-based indexing.</param>
         /// <param name="arrayIndex">The zero-based index in array at which copying begins.</param>
         public void CopyTo(T[] array, int arrayIndex)
         {
@@ -178,9 +178,9 @@ namespace DataStructures.Lists
         }
 
         /// <summary>
-        /// Returns an enumerator for the entire ArrayList.
+        /// Returns an enumerator for the entire DataStructures.Lists.ArrayList.
         /// </summary>
-        /// <returns>An IEnumerator for the entire ArrayList.</returns>
+        /// <returns>An IEnumerator for the entire DataStructures.Lists.ArrayList.</returns>
         public IEnumerator<T> GetEnumerator()
         {
             T[] validData = backingArray[0..Count];
@@ -193,9 +193,9 @@ namespace DataStructures.Lists
         }
 
         /// <summary>
-        /// Searches for the specified T and returns the zero-based index of the first occurrence within the entire ArrayList.
+        /// Searches for the specified T and returns the zero-based index of the first occurrence within the entire DataStructures.Lists.ArrayList.
         /// </summary>
-        /// <param name="item">The T, item, to locate in the ArrayList. The value can be null.</param>
+        /// <param name="item">The T, item, to locate in the DataStructures.Lists.ArrayList. The value can be null.</param>
         /// <param name="startIndex">The zero-based starting index of the search. 0 (zero) is valid in an empty list.</param>
         /// <returns>The zero-based index of the first occurrence of value within the entire ArrayList, if found; Otherwise, -1.</returns>
         public int IndexOf(T item, int startIndex)
@@ -216,9 +216,9 @@ namespace DataStructures.Lists
         }
 
         /// <summary>
-        /// Searches for the specified T and returns the zero-based index of the first occurrence within the entire ArrayList.
+        /// Searches for the specified T and returns the zero-based index of the first occurrence within the entire DataStructures.Lists.ArrayList.
         /// </summary>
-        /// <param name="item">The T, item, to locate in the ArrayList. The value can be null.</param>
+        /// <param name="item">The T, item, to locate in the DataStructures.Lists.ArrayList. The value can be null.</param>
         /// <returns>The zero-based index of the first occurrence of value within the entire ArrayList, if found; Otherwise, -1.</returns>
         public int IndexOf(T item)
         {
@@ -226,7 +226,7 @@ namespace DataStructures.Lists
         }
 
         /// <summary>
-        /// Inserts an element into the ArrayList at the specified index.
+        /// Inserts an element into the DataStructures.Lists.ArrayList at the specified index.
         /// </summary>
         /// <param name="index">The zero-based index at which value should be inserted.</param>
         /// <param name="item">The T, item, to insert. The value can be null.</param>
@@ -234,7 +234,7 @@ namespace DataStructures.Lists
         {
             if (index < 0 || index > Count)
             {
-                throw new IndexOutOfRangeException($"The index, {index}, is out of the bounds of the ArrayList.");
+                throw new IndexOutOfRangeException($"The index, {index}, is out of the bounds of the DataStructures.Lists.ArrayList.");
             }
 
             Resize();
@@ -243,9 +243,9 @@ namespace DataStructures.Lists
         }
 
         /// <summary>
-        /// Removes the first occurrence of a specific object from the ArrayList.
+        /// Removes the first occurrence of a specific object from the DataStructures.Lists.ArrayList.
         /// </summary>
-        /// <param name="item">The T, item, to remove from the ArrayList. The value can be null.</param>
+        /// <param name="item">The T, item, to remove from the DataStructures.Lists.ArrayList. The value can be null.</param>
         /// <returns>A boolean, true if the item was successfully removed; otherwise, false.</returns>
         public bool Remove(T item)
         {
@@ -257,7 +257,7 @@ namespace DataStructures.Lists
         }
 
         /// <summary>
-        /// Removes the element at the specified index of the ArrayList.
+        /// Removes the element at the specified index of the DataStructures.Lists.ArrayList.
         /// </summary>
         /// <param name="index">The zero-based index of the element to remove.</param>
         public void RemoveAt(int index)
@@ -267,9 +267,9 @@ namespace DataStructures.Lists
         }
 
         /// <summary>
-        /// Copies the elements of the ArrayList to a new T, item, array.
+        /// Copies the elements of the DataStructures.Lists.ArrayList to a new T, item, array.
         /// </summary>
-        /// <returns>A T, item, array containing copies of the elements of the ArrayList.</returns>
+        /// <returns>A T, item, array containing copies of the elements of the DataStructures.Lists.ArrayList.</returns>
         public T[] ToArray()
         {
             T[] returnArray = new T[Count];
