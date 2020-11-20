@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DataStructuresTester.Lists
+namespace DataStructuresTester.Disposables
 {
     public class DisposableArrayList<T> : IDisposable
     {

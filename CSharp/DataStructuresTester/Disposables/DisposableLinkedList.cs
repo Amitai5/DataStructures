@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DataStructuresTester.Lists
+namespace DataStructuresTester.Disposables
 {
     public class DisposableLinkedList<T> : IDisposable
     {

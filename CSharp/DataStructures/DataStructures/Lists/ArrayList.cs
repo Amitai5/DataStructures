@@ -41,6 +41,11 @@ namespace DataStructures.Lists
         public int Count => arrayTail + 1;
 
         /// <summary>
+        /// Gets the number of elements that the ArrayList can contain at the current size.
+        /// </summary>
+        public int Capacity => backingArray.Length;
+
+        /// <summary>
         /// Gets a value indicating whether the LinkedList is read-only.
         /// </summary>
         public bool IsReadOnly => false;
@@ -59,6 +64,7 @@ namespace DataStructures.Lists
         public ArrayList()
         {
             backingArray = new T[InitCapacity];
+            arrayTail = -1;
         }
 
         /// <summary>
@@ -73,6 +79,7 @@ namespace DataStructures.Lists
             }
 
             backingArray = new T[capacity];
+            arrayTail = -1;
         }
 
         /// <summary>
@@ -171,6 +178,21 @@ namespace DataStructures.Lists
         }
 
         /// <summary>
+        /// Returns an enumerator for the entire ArrayList.
+        /// </summary>
+        /// <returns>An IEnumerator for the entire ArrayList.</returns>
+        public IEnumerator<T> GetEnumerator()
+        {
+            T[] validData = backingArray[0..Count];
+            return ((IEnumerable<T>)validData).GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+
+        /// <summary>
         /// Searches for the specified T and returns the zero-based index of the first occurrence within the entire ArrayList.
         /// </summary>
         /// <param name="item">The T, item, to locate in the ArrayList. The value can be null.</param>
@@ -244,15 +266,15 @@ namespace DataStructures.Lists
             arrayTail--;
         }
 
-        public IEnumerator<T> GetEnumerator()
+        /// <summary>
+        /// Copies the elements of the ArrayList to a new T, item, array.
+        /// </summary>
+        /// <returns>A T, item, array containing copies of the elements of the ArrayList.</returns>
+        public T[] ToArray()
         {
-            T[] validData = backingArray[0..Count];
-            return ((IEnumerable<T>)validData).GetEnumerator();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
+            T[] returnArray = new T[Count];
+            CopyTo(returnArray, 0);
+            return returnArray;
         }
 
         #region Helper Methods
