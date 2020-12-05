@@ -6,40 +6,40 @@ using System;
 namespace DataStructures
 {
     /// <summary>
-    /// Represents a first-in, first-out collection of T, objects.
+    /// Represents a first-in, last-out collection of T, objects.
     /// </summary>
-    /// <typeparam name="T">Specifies the element type of the DataStructures.Queue.</typeparam>
-    public class Queue<T> : ICollection, IReadOnlyCollection<T>
+    /// <typeparam name="T">Specifies the element type of the DataStructures.Stack.</typeparam>
+    public class Stack<T> : ICollection, IReadOnlyCollection<T>
     {
         /// <summary>
-        /// Gets a value indicating whether access to the DataStructures.Queue is synchronized (thread safe).
-        /// True if access to the DataStructures.Queue is synchronized (thread safe); otherwise, false. The default is false.
+        /// Gets a value indicating whether access to the DataStructures.Stack is synchronized (thread safe).
+        /// True if access to the DataStructures.Stack is synchronized (thread safe); otherwise, false. The default is false.
         /// </summary>
         public bool IsSynchronized => false;
 
         /// <summary>
-        /// Gets an object that can be used to synchronize access to the DataStructures.Queue.
+        /// Gets an object that can be used to synchronize access to the DataStructures.Stack.
         /// </summary>
         public object SyncRoot => throw new NotImplementedException();
 
         /// <summary>
-        /// Gets the number of elements that the DataStructures.Queue can contain at the current size.
+        /// Gets the number of elements that the DataStructures.Stack can contain at the current size.
         /// </summary>
         public int Capacity => backingArray.Length;
 
         /// <summary>
-        /// Gets the number of elements contained in the DataStructures.Queue.
+        /// Gets the number of elements contained in the DataStructures.Stack.
         /// </summary>
         public int Count { get; private set; }
 
         /// <summary>
-        /// Gets a value indicating whether the DataStructures.Queue has any elements within it.
-        /// True if the DataStructures.Queue is empty; otherwise, false.
+        /// Gets a value indicating whether the DataStructures.Stack has any elements within it.
+        /// True if the DataStructures.Stack is empty; otherwise, false.
         /// </summary>
         public bool IsEmpty => Count == 0;
 
         /// <summary>
-        /// The initial capacity of the DataStructures.Queue if none is given in the constructor of the class.
+        /// The initial capacity of the DataStructures.Stack if none is given in the constructor of the class.
         /// </summary>
         public const int InitCapacity = 4;
 
@@ -48,29 +48,29 @@ namespace DataStructures
         private T[] backingArray;
 
         /// <summary>
-        /// Initializes a new instance of the DataStructures.Queue class that is empty and has the default initial capacity.
+        /// Initializes a new instance of the DataStructures.Stack class that is empty and has the default initial capacity.
         /// </summary>
-        public Queue()
+        public Stack()
         {
             backingArray = new T[InitCapacity];
             queueTail = -1;
         }
 
         /// <summary>
-        /// Initializes a new instance of the DataStructures.Queue class that is empty and has the specified initial capacity.
+        /// Initializes a new instance of the DataStructures.Stack class that is empty and has the specified initial capacity.
         /// </summary>
-        /// <param name="capacity">The initial number of elements that the DataStructures.Queue can contain.</param>
-        public Queue(int capacity)
+        /// <param name="capacity">The initial number of elements that the DataStructures.Stack can contain.</param>
+        public Stack(int capacity)
         {
             if (capacity < 0)
             {
-                throw new ArgumentNullException("The capacity of the DataStructures.Queue must be initialized as a positive non-zero number.");
+                throw new ArgumentNullException("The capacity of the DataStructures.Stack must be initialized as a positive non-zero number.");
             }
             backingArray = new T[capacity];
         }
 
         /// <summary>
-        /// Removes all objects from the DataStructures.Queue.
+        /// Removes all objects from the DataStructures.Stack.
         /// </summary>
         public void Clear()
         {
@@ -80,9 +80,9 @@ namespace DataStructures
         }
 
         /// <summary>
-        /// Determines whether an element is in the DataStructures.Queue.
+        /// Determines whether an element is in the DataStructures.Stack.
         /// </summary>
-        /// <param name="item">The object to locate in the DataStructures.Queue. The value can be null.</param>
+        /// <param name="item">The object to locate in the DataStructures.Stack. The value can be null.</param>
         /// <returns>True if item is found in the Queue; otherwise, false.</returns>
         public bool Contains(T item)
         {
@@ -103,9 +103,9 @@ namespace DataStructures
         }
 
         /// <summary>
-        /// Copies the DataStructures.Queue elements to an existing one-dimensional System.Array, starting at the specified array index.
+        /// Copies the DataStructures.Stack elements to an existing one-dimensional System.Array, starting at the specified array index.
         /// </summary>
-        /// <param name="array">The one-dimensional System.Array that is the destination of the elements copied from DataStructures.Queue. The System.Array must have zero-based indexing.</param>
+        /// <param name="array">The one-dimensional System.Array that is the destination of the elements copied from DataStructures.Stack. The System.Array must have zero-based indexing.</param>
         /// <param name="arrayIndex">The zero-based index in array at which copying begins.</param>
         public void CopyTo(Array array, int arrayIndex)
         {
@@ -116,7 +116,7 @@ namespace DataStructures
 
             if (array.Length - arrayIndex < Count)
             {
-                throw new ArgumentOutOfRangeException($"The array of length, {array.Length}, does not have enough space to copy the contents of the DataStructures.Queue starting at index {queueTail}.");
+                throw new ArgumentOutOfRangeException($"The array of length, {array.Length}, does not have enough space to copy the contents of the DataStructures.Stack starting at index {queueTail}.");
             }
 
             if (arrayIndex < 0 || arrayIndex >= array.Length)
@@ -128,14 +128,14 @@ namespace DataStructures
         }
 
         /// <summary>
-        ///  Removes and returns the object at the beginning of the DataStructures.Queue.
+        ///  Removes and returns the object at the beginning of the DataStructures.Stack.
         /// </summary>
-        /// <returns>The object that is removed from the beginning of the DataStructures.Queue.</returns>
+        /// <returns>The object that is removed from the beginning of the DataStructures.Stack.</returns>
         public T Dequeue()
         {
             if (Count == 0)
             {
-                throw new InvalidOperationException("The DataStructures.Queue is empty.");
+                throw new InvalidOperationException("The DataStructures.Stack is empty.");
             }
 
             Count--;
@@ -146,9 +146,9 @@ namespace DataStructures
         }
 
         /// <summary>
-        /// Adds an object to the end of the DataStructures.Queue.
+        /// Adds an object to the end of the DataStructures.Stack.
         /// </summary>
-        /// <param name="item">The object to add to the DataStructures.Queue. The value can be null.</param>
+        /// <param name="item">The object to add to the DataStructures.Stack. The value can be null.</param>
         public void Enqueue(T item)
         {
             Count++;
@@ -157,9 +157,9 @@ namespace DataStructures
         }
 
         /// <summary>
-        /// Returns an enumerator that iterates through the DataStructures.Queue.
+        /// Returns an enumerator that iterates through the DataStructures.Stack.
         /// </summary>
-        /// <returns>An Enumerator for the DataStructures.Queue.</returns>
+        /// <returns>An Enumerator for the DataStructures.Stack.</returns>
         public IEnumerator<T> GetEnumerator()
         {
             T[] validData = getConsecutiveBackend();
@@ -172,22 +172,22 @@ namespace DataStructures
         }
 
         /// <summary>
-        /// Returns the object at the beginning of the DataStructures.Queue without removing it.
+        /// Returns the object at the beginning of the DataStructures.Stack without removing it.
         /// </summary>
-        /// <returns>The object at the beginning of the DataStructures.Queue.</returns>
+        /// <returns>The object at the beginning of the DataStructures.Stack.</returns>
         public T Peek()
         {
             if (Count == 0)
             {
-                throw new InvalidOperationException("The DataStructures.Queue is empty.");
+                throw new InvalidOperationException("The DataStructures.Stack is empty.");
             }
             return backingArray[queueHead % backingArray.Length];
         }
 
         /// <summary>
-        /// Copies the DataStructures.Queue elements to a new array.
+        /// Copies the DataStructures.Stack elements to a new array.
         /// </summary>
-        /// <returns>A new array containing elements copied from the DataStructures.Queue.</returns>
+        /// <returns>A new array containing elements copied from the DataStructures.Stack.</returns>
         public T[] ToArray()
         {
             T[] returnArray = new T[Count];
@@ -196,7 +196,7 @@ namespace DataStructures
         }
 
         /// <summary>
-        /// Sets the capacity to the actual number of elements in the DataStructures.Queue.
+        /// Sets the capacity to the actual number of elements in the DataStructures.Stack.
         /// </summary>
         public void TrimExcess()
         {
@@ -209,7 +209,7 @@ namespace DataStructures
         /// Removes the object at the beginning of the Queue, and copies it to the result parameter.
         /// </summary>
         /// <param name="result">The removed object.</param>
-        /// <returns>True if the object is successfully removed; false if the DataStructures.Queue is empty.</returns>
+        /// <returns>True if the object is successfully removed; false if the DataStructures.Stack is empty.</returns>
         public bool TryDequeue([MaybeNullWhen(false)] out T? result)
         {
             result = default;
@@ -221,10 +221,10 @@ namespace DataStructures
 
         /// <summary>
         /// Returns a value that indicates whether there is an object at the beginning of the Queue, and if one is present, 
-        /// copies it to the result parameter. The object is not removed from the DataStructures.Queue.
+        /// copies it to the result parameter. The object is not removed from the DataStructures.Stack.
         /// </summary>
         /// <param name="result">If present, the object at the beginning of the Queue; otherwise, the default value of T.</param>
-        /// <returns>True if there is an object at the beginning of the Queue; false if the DataStructures.Queue is empty.</returns>
+        /// <returns>True if there is an object at the beginning of the Queue; false if the DataStructures.Stack is empty.</returns>
         public bool TryPeek([MaybeNullWhen(false)] out T? result)
         {
             result = default;
@@ -237,7 +237,7 @@ namespace DataStructures
         #region Helper Methods
         private T[] getConsecutiveBackend()
         {
-            if(Count == 0)
+            if (Count == 0)
             {
                 return Array.Empty<T>();
             }
