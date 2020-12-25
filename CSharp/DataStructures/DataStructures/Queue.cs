@@ -62,11 +62,13 @@ namespace DataStructures
         /// <param name="capacity">The initial number of elements that the DataStructures.Queue can contain.</param>
         public Queue(int capacity)
         {
-            if (capacity < 0)
+            if (capacity <= 0)
             {
                 throw new ArgumentNullException("The capacity of the DataStructures.Queue must be initialized as a positive non-zero number.");
             }
+
             backingArray = new T[capacity];
+            queueTail = -1;
         }
 
         /// <summary>
@@ -86,15 +88,14 @@ namespace DataStructures
         /// <returns>True if item is found in the Queue; otherwise, false.</returns>
         public bool Contains(T item)
         {
-            T[] consecBackend = getConsecutiveBackend();
-            for (int i = 0; i < consecBackend.Length; i++)
+            for (int i = queueHead; i < Count; i++)
             {
-                if (consecBackend[i] == null && item == null)
+                int cyclicalIndex = i % backingArray.Length;
+                if (backingArray[cyclicalIndex] == null && item == null)
                 {
                     return true;
                 }
-
-                else if (consecBackend[i] != null && consecBackend[i]!.Equals(item))
+                else if (backingArray[cyclicalIndex] != null && backingArray[cyclicalIndex]!.Equals(item))
                 {
                     return true;
                 }
@@ -116,12 +117,12 @@ namespace DataStructures
 
             if (array.Length - arrayIndex < Count)
             {
-                throw new ArgumentOutOfRangeException($"The array of length, {array.Length}, does not have enough space to copy the contents of the DataStructures.Queue starting at index {queueTail}.");
+                throw new ArgumentOutOfRangeException($"The array of length, {array.Length}, does not have enough space to copy the contents of the ArrayList starting at index {arrayIndex}.");
             }
 
             if (arrayIndex < 0 || arrayIndex >= array.Length)
             {
-                throw new IndexOutOfRangeException($"The start index, {queueTail} is an invalid starting point for the given array.");
+                throw new IndexOutOfRangeException($"The start index, {arrayIndex} is an invalid starting point for the given array.");
             }
 
             backingArray[queueHead..Count].CopyTo(array, arrayIndex);
@@ -152,7 +153,7 @@ namespace DataStructures
         public void Enqueue(T item)
         {
             Count++;
-            Resize();
+            resize();
             backingArray[queueTail % backingArray.Length] = item;
         }
 
@@ -237,7 +238,7 @@ namespace DataStructures
         #region Helper Methods
         private T[] getConsecutiveBackend()
         {
-            if(Count == 0)
+            if (Count == 0)
             {
                 return Array.Empty<T>();
             }
@@ -257,10 +258,13 @@ namespace DataStructures
             return consecArray;
         }
 
-        private void Resize()
+        /// <summary>
+        /// Checks if the DataStructures.Queue needs to be resized. If resized, it doubles the size of the backing array.
+        /// </summary>
+        private void resize()
         {
             queueTail++;
-            if (Count < backingArray.Length)
+            if (Count <= backingArray.Length)
             {
                 if (queueHead == backingArray.Length)
                 {

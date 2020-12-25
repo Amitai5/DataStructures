@@ -7,8 +7,8 @@ namespace DataStructures.Lists
     /// <summary>
     /// Implements the IList interface using an array whose size is dynamically increased as required.
     /// </summary>
-    /// <typeparam name="T">Specifies the element type of the LinkedList.</typeparam>
-    public class ArrayList<T> : IList<T>, ICloneable
+    /// <typeparam name="T">Specifies the element type of the ArrayList.</typeparam>
+    public class ArrayList<T> : IList<T>
     {
         /// <summary>
         /// Gets or sets the element at the specified index.
@@ -36,7 +36,7 @@ namespace DataStructures.Lists
         }
 
         /// <summary>
-        /// Gets the number of nodes actually contained in the LinkedList.
+        /// Gets the number of nodes actually contained in the ArrayList.
         /// </summary>
         public int Count => arrayTail + 1;
 
@@ -46,7 +46,7 @@ namespace DataStructures.Lists
         public int Capacity => backingArray.Length;
 
         /// <summary>
-        /// Gets a value indicating whether the LinkedList is read-only.
+        /// Gets a value indicating whether the ArrayList is read-only.
         /// </summary>
         public bool IsReadOnly => false;
 
@@ -97,12 +97,6 @@ namespace DataStructures.Lists
             collection.CopyTo(backingArray, 0);
         }
 
-        private ArrayList(T[] backing, int tail)
-        {
-            backingArray = backing;
-            arrayTail = tail;
-        }
-
         /// <summary>
         /// Adds an object to the end of the DataStructures.Lists.ArrayList.
         /// </summary>
@@ -119,15 +113,6 @@ namespace DataStructures.Lists
         public void Clear()
         {
             arrayTail = -1;
-        }
-
-        /// <summary>
-        /// Creates a shallow copy of the DataStructures.Lists.ArrayList.
-        /// </summary>
-        /// <returns>A shallow copy of the DataStructures.Lists.ArrayList.</returns>
-        public object Clone()
-        {
-            return new ArrayList<T>((T[])backingArray.Clone(), arrayTail);
         }
 
         /// <summary>
@@ -166,7 +151,7 @@ namespace DataStructures.Lists
 
             if (array.Length - arrayIndex < Count)
             {
-                throw new ArgumentOutOfRangeException($"The array of length, {array.Length}, does not have enough space to copy the contents of the LinkedList starting at index {arrayIndex}.");
+                throw new ArgumentOutOfRangeException($"The array of length, {array.Length}, does not have enough space to copy the contents of the ArrayList starting at index {arrayIndex}.");
             }
 
             if (arrayIndex < 0 || arrayIndex >= array.Length)
@@ -196,11 +181,10 @@ namespace DataStructures.Lists
         /// Searches for the specified T and returns the zero-based index of the first occurrence within the entire DataStructures.Lists.ArrayList.
         /// </summary>
         /// <param name="item">The T, item, to locate in the DataStructures.Lists.ArrayList. The value can be null.</param>
-        /// <param name="startIndex">The zero-based starting index of the search. 0 (zero) is valid in an empty list.</param>
         /// <returns>The zero-based index of the first occurrence of value within the entire ArrayList, if found; Otherwise, -1.</returns>
-        public int IndexOf(T item, int startIndex)
+        public int IndexOf(T item)
         {
-            for (int i = startIndex; i < Count; i++)
+            for (int i = 0; i < Count; i++)
             {
                 if (backingArray[i] == null && item == null)
                 {
@@ -213,16 +197,6 @@ namespace DataStructures.Lists
                 }
             }
             return -1;
-        }
-
-        /// <summary>
-        /// Searches for the specified T and returns the zero-based index of the first occurrence within the entire DataStructures.Lists.ArrayList.
-        /// </summary>
-        /// <param name="item">The T, item, to locate in the DataStructures.Lists.ArrayList. The value can be null.</param>
-        /// <returns>The zero-based index of the first occurrence of value within the entire ArrayList, if found; Otherwise, -1.</returns>
-        public int IndexOf(T item)
-        {
-            return IndexOf(item, 0);
         }
 
         /// <summary>

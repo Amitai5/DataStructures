@@ -1,191 +1,203 @@
-﻿using DataStructuresTester.Disposables;
-using System;
+﻿using DataStructuresTester.Fixtures;
 using System.Collections.Generic;
+using System;
 using Xunit;
 
 namespace DataStructuresTester
 {
-    public class QueueTester : DisposableQueue<int?>
+    public class QueueTester : QueueFixture<int?>
     {
-        private const int sampleSize = 100;
+        public const int SampleSize = 20;
         private readonly Random random = new Random();
 
         [Fact]
-        public void TestCircularity()
+        public void TestArrayResize()
         {
-            int nextTargetCapacity = TestQueue.Capacity;
-            for (int i = 0; i < sampleSize; i++)
-            {
-                TestQueue.Enqueue(random.Next());
-                Assert.Equal(i + 1, TestQueue.Count);
+            const int initCapacity = DataStructures.Queue<int?>.InitCapacity;
+            Assert.Equal(initCapacity, TestQueue.Capacity);
 
-                TestQueue.Dequeue();
-                Assert.Equal(i, TestQueue.Count);
+            TestQueue.Enqueue(1);
+            TestQueue.Enqueue(2);
+            TestQueue.Enqueue(3);
+            TestQueue.Enqueue(4);
+            Assert.Equal(initCapacity, TestQueue.Capacity);
 
-                TestQueue.Enqueue(random.Next());
-                Assert.Equal(i + 1, TestQueue.Count);
+            TestQueue.Enqueue(5);
+            Assert.Equal(initCapacity * 2, TestQueue.Capacity);
+        }
 
-                if (i == nextTargetCapacity)
-                {
-                    nextTargetCapacity *= 2;
-                    Assert.Equal(nextTargetCapacity, TestQueue.Capacity);
-                }
-            }
+        [Fact]
+        public void TestClear()
+        {
+            PopulateTestQueue();
+            Assert.Equal(SampleSize, TestQueue.Count);
+
+            TestQueue.Clear();
+            Assert.Empty(TestQueue);
         }
 
         [Fact]
         public void TestContains()
         {
-            int?[] filledValues = FillQueue();
-
-            bool foundImpossible = TestQueue.Contains(-1);
-            Assert.False(foundImpossible);
-
-            for (int i = 0; i < sampleSize; i++)
+            PopulateTestQueue();
+            for (int i = 0; i < TestQueue.Count; i++)
             {
-                int? randomValue = filledValues[random.Next(TestQueue.Count)];
-                bool foundValue = TestQueue.Contains(randomValue);
-                Assert.True(foundValue);
+                Assert.True(TestQueue.Contains(i + 2));
             }
+
+            Assert.False(TestQueue.Contains(-25));
+            Assert.False(TestQueue.Contains(5000));
         }
 
         [Fact]
         public void TestCopyTo()
         {
-            int?[] numbersAdded = FillQueue();
-            int?[] copiedList = new int?[TestQueue.Count];
+            PopulateTestQueue();
+            int?[] copyArray = new int?[SampleSize + 1];
+            TestQueue.CopyTo(copyArray, 1);
 
-            TestQueue.CopyTo(copiedList, 0);
-            AssertQueueEqual(copiedList);
-            FillQueue();
-
-            int?[] smallQueue = new int?[TestQueue.Count / 2];
-            int?[] largeQueue = new int?[TestQueue.Count * 2];
-
-            Assert.Throws<IndexOutOfRangeException>(() => TestQueue.CopyTo(largeQueue, -1));
-            Assert.Throws<ArgumentOutOfRangeException>(() => TestQueue.CopyTo(smallQueue, 0));
-            Assert.Throws<ArgumentOutOfRangeException>(() => TestQueue.CopyTo(largeQueue, largeQueue.Length - 2));
-        }
-
-        [Fact]
-        public void TestEnqueue()
-        {
-            TestQueue.Enqueue(null);
-            Assert.Single(TestQueue);
-
-            int initialCount = TestQueue.Count + 1;
-            for (int i = 0; i < sampleSize; i++)
+            for (int i = 1; i < copyArray.Length; i++)
             {
-                TestQueue.Enqueue(random.Next());
-                Assert.Equal(i + initialCount, TestQueue.Count);
+                Assert.Equal(TestQueue.Dequeue(), copyArray[i]);
             }
+
+            PopulateTestQueue();
+            int?[] smallList = new int?[TestQueue.Count / 2];
+            int?[] largeList = new int?[TestQueue.Count * 2];
+
+            Assert.Throws<IndexOutOfRangeException>(() => TestQueue.CopyTo(largeList, -1));
+            Assert.Throws<ArgumentOutOfRangeException>(() => TestQueue.CopyTo(smallList, 0));
+            Assert.Throws<ArgumentOutOfRangeException>(() => TestQueue.CopyTo(largeList, largeList.Length - 2));
         }
 
         [Fact]
         public void TestDequeue()
         {
-            for (int i = 0; i < sampleSize; i++)
-            {
-                int randomVal = random.Next();
-                TestQueue.Enqueue(randomVal);
-                Assert.Single(TestQueue);
+            PopulateTestQueue();
+            Assert.Equal(SampleSize, TestQueue.Count);
 
-                int? retValue = TestQueue.Dequeue();
-                Assert.Equal(randomVal, retValue);
-                Assert.Empty(TestQueue);
+            int currentValue = 2;
+            int queueCount = SampleSize;
+
+            do
+            {
+                Assert.Equal(currentValue, TestQueue.Dequeue());
+                currentValue++;
+
+                queueCount--;
+                Assert.Equal(queueCount, TestQueue.Count);
+
+            } while (TestQueue.Count > 0);
+            Assert.Empty(TestQueue);
+        }
+
+        [Fact]
+        public void TestEnqueue()
+        {
+            PopulateTestQueue();
+            Assert.Equal(SampleSize, TestQueue.Count);
+
+            int currentValue = 2;
+            do
+            {
+                Assert.Equal(currentValue, TestQueue.Dequeue());
+                currentValue++;
+
+            } while (TestQueue.Count > 0);
+
+            TestQueue.Enqueue(null);
+            Assert.Null(TestQueue.Dequeue());
+        }
+
+        [Fact]
+        public void TestEnumerator()
+        {
+            PopulateTestQueue();
+            IEnumerator<int?> enumerator = TestQueue.GetEnumerator();
+
+            int currentIndex = 2;
+            while (enumerator.MoveNext())
+            {
+                Assert.Equal(currentIndex, enumerator.Current);
+                currentIndex++;
             }
         }
 
         [Fact]
         public void TestPeek()
         {
-            for (int i = 0; i < sampleSize; i++)
+            PopulateTestQueue();
+
+            int currentValue = 2;
+            int queueCount = SampleSize;
+
+            do
             {
-                int randomVal = random.Next();
-                TestQueue.Enqueue(randomVal);
-                Assert.Single(TestQueue);
+                Assert.Equal(currentValue, TestQueue.Peek());
+                Assert.Equal(queueCount, TestQueue.Count);
 
-                int? peekVal = TestQueue.Peek();
-                Assert.Equal(randomVal, peekVal);
+                Assert.Equal(TestQueue.Peek(), TestQueue.Dequeue());
+                queueCount--;
 
-                Assert.NotEmpty(TestQueue);
-                TestQueue.Clear();
-            }
+                Assert.Equal(queueCount, TestQueue.Count);
+                currentValue++;
+
+            } while (TestQueue.Count > 0);
         }
 
         [Fact]
         public void TestToArray()
         {
-            int?[] numbersAdded = FillQueue();
-            int?[] copiedArray = TestQueue.ToArray();
+            PopulateTestQueue();
+            int?[] copyArray = TestQueue.ToArray();
 
-            Assert.NotSame(TestQueue.ToArray(), copiedArray);
-            Assert.Equal(numbersAdded, copiedArray);
+            for (int i = 0; i < copyArray.Length; i++)
+            {
+                Assert.Equal(TestQueue.Dequeue(), copyArray[i]);
+            }
         }
 
         [Fact]
         public void TestTrimExcess()
         {
-            int?[] numbersAdded = FillQueue();
-            Assert.NotEqual(numbersAdded.Length, TestQueue.Capacity);
+            PopulateTestQueue();
+            Assert.Equal(32, TestQueue.Capacity);
+            Assert.Equal(SampleSize, TestQueue.Count);
 
             TestQueue.TrimExcess();
-            Assert.Equal(numbersAdded.Length, TestQueue.Capacity);
-            AssertQueueEqual(numbersAdded);
+            Assert.Equal(SampleSize, TestQueue.Capacity);
         }
 
         [Fact]
         public void TestTryDequeue()
         {
-            bool shouldNotWork = TestQueue.TryDequeue(out int? result);
-            Assert.False(shouldNotWork);
-            Assert.Null(result);
+            Assert.False(TestQueue.TryDequeue(out int? badResult));
+            Assert.Null(badResult);
 
-            TestQueue.Enqueue(random.Next());
-
-            bool shouldWork = TestQueue.TryDequeue(out int? result2);
-            Assert.True(shouldWork);
+            TestQueue.Enqueue(100);
+            Assert.True(TestQueue.TryDequeue(out int? goodResult));
+            Assert.Equal(100, goodResult);
             Assert.Empty(TestQueue);
-            Assert.NotNull(result2);
         }
 
         [Fact]
         public void TestTryPeek()
         {
-            bool shouldNotWork = TestQueue.TryPeek(out int? result);
-            Assert.False(shouldNotWork);
-            Assert.Null(result);
+            Assert.False(TestQueue.TryPeek(out int? badResult));
+            Assert.Null(badResult);
 
-            TestQueue.Enqueue(random.Next());
-
-            bool shouldWork = TestQueue.TryPeek(out int? result2);
+            TestQueue.Enqueue(100);
+            Assert.True(TestQueue.TryPeek(out int? goodResult));
+            Assert.Equal(100, goodResult);
             Assert.Single(TestQueue);
-            Assert.True(shouldWork);
-            Assert.NotNull(result2);
         }
 
-        #region Helper Methods
-        private void AssertQueueEqual(IList<int?> other)
+        private void PopulateTestQueue()
         {
-            for (int i = 0; i < TestQueue.Count; i++)
+            for (int i = 0; i < SampleSize; i++)
             {
-                Assert.Equal(TestQueue.Dequeue(), other[i]);
+                TestQueue.Enqueue(i + 2);
             }
         }
-
-        private int?[] FillQueue()
-        {
-            int?[] numbersAdded = new int?[sampleSize];
-            for (int i = 0; i < sampleSize; i++)
-            {
-                int newNumber = random.Next();
-                numbersAdded[i] = newNumber;
-                TestQueue.Enqueue(newNumber);
-            }
-
-            Assert.NotEmpty(TestQueue);
-            return numbersAdded;
-        }
-        #endregion Helper Methods
     }
 }
